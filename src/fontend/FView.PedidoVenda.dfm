@@ -152,6 +152,16 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
       DataSource = dmdViewDataPedidoVenda.dstPedido
       TabOrder = 3
     end
+    object btnInserirItens: TButton
+      Left = 731
+      Top = 42
+      Width = 118
+      Height = 23
+      Caption = '+ &Adicionar Itens'
+      TabOrder = 4
+      Visible = False
+      OnClick = btnInserirItensClick
+    end
   end
   object pnlItens: TPanel
     Left = 0

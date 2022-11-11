@@ -15,6 +15,8 @@ uses
   SysUtils, Classes, DB, DBClient, Variants;
 
 type
+  TNotifyAddItens = procedure(value: boolean) of object;
+
   TdmdViewDataPedidoVenda = class(TDataModule)
     dtsItensPedido: TDataSource;
     dstPedido: TDataSource;
@@ -46,11 +48,13 @@ type
     procedure cdsItensPedidovalor_unitarioValidate(Sender: TField);
     procedure cdsItensPedidoBeforeDelete(DataSet: TDataSet);
     procedure cdsItensPedidoAfterDelete(DataSet: TDataSet);
+    procedure cdsPedidocliente_idValidate(Sender: TField);
   private
     FControlCliente: TControlCliente;
     FControlProduto: TControlProduto;
     FControlPedidoVenda: TControlPedidoVenda;
     FDeleteSeq: integer;
+    FonNotifyAddItens: TNotifyAddItens;
     function GetBuscarPedido(piNumeroPedido: integer): boolean;
     procedure SetControlCliente(const Value: TControlCliente);
     function GetControlCliente: TControlCliente;
@@ -63,6 +67,7 @@ type
     procedure AjustarSequenciaExcluida;
 
     procedure LimparItens;
+    procedure SetonNotifyAddItens(const Value: TNotifyAddItens);
   public
     procedure Novo;
     procedure Post;
@@ -76,6 +81,8 @@ type
       SetControlProduto;
     property ControlPedidoVenda: TControlPedidoVenda read GetControlPedidoVenda
       write SetControlPedidoVenda;
+
+    property onNotifyAddItens:TNotifyAddItens read FonNotifyAddItens write SetonNotifyAddItens;
   end;
 
 var
@@ -157,7 +164,7 @@ begin
   DataSet.FieldByName('quantidade').AsFloat := 1;
   DataSet.FieldByName('sequencia').AsInteger := linSequencia;
   DataSet.FieldByName('id').AsInteger := linSequencia * -1;
-  DataSet.FieldByName('produto_codigo').FocusControl;
+//  DataSet.FieldByName('produto_codigo').FocusControl;
 end;
 
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoproduto_codigoSetText(
@@ -257,6 +264,12 @@ begin
   end;
 end;
 
+procedure TdmdViewDataPedidoVenda.cdsPedidocliente_idValidate(Sender: TField);
+begin
+  if Assigned(onNotifyAddItens) then
+    onNotifyAddItens(Sender.AsInteger > 0);
+end;
+
 procedure TdmdViewDataPedidoVenda.cdsPedidoNewRecord(DataSet: TDataSet);
 begin
   cdsPedidonumero.AsInteger := ControlPedidoVenda.NextNumeroPedidoVenda;
@@ -354,6 +367,12 @@ procedure TdmdViewDataPedidoVenda.SetControlProduto(
   const Value: TControlProduto);
 begin
   FControlProduto := Value;
+end;
+
+procedure TdmdViewDataPedidoVenda.SetonNotifyAddItens(
+  const Value: TNotifyAddItens);
+begin
+  FonNotifyAddItens := Value;
 end;
 
 end.

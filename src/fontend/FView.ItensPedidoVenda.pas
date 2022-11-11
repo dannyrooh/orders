@@ -3,8 +3,11 @@ unit FView.ItensPedidoVenda;
 interface
 
 uses
+  Entity.PedidoVendaItem,
+  Convert.PedidoVendaItem,
+  Validate.Pedido,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms,
-  Dialogs, StdCtrls, Mask, DBCtrls, ExtCtrls, Buttons;
+  Dialogs, StdCtrls, Mask, DBCtrls, ExtCtrls, Buttons, DB;
 
 type
   TfrmViewItensPedidoVenda = class(TForm)
@@ -13,7 +16,7 @@ type
     Label1: TLabel;
     DBEdit1: TDBEdit;
     Label2: TLabel;
-    DBEdit2: TDBEdit;
+    edtProduto: TDBEdit;
     DBEdit3: TDBEdit;
     Label4: TLabel;
     DBEdit4: TDBEdit;
@@ -26,6 +29,7 @@ type
     Label5: TLabel;
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure FormClose(Sender: TObject; var Action: TCloseAction);
+    procedure BitBtn2Click(Sender: TObject);
   private
     { Private declarations }
   public
@@ -35,6 +39,27 @@ type
 implementation
 
 {$R *.dfm}
+
+procedure TfrmViewItensPedidoVenda.BitBtn2Click(Sender: TObject);
+var
+  dataset: TDataSet;
+  entity: TEntityPedidoVendaItem;
+begin
+  dataset := edtProduto.DataSource.DataSet;
+  entity := TConvertPedidoVendaItem.toEntity(dataset);
+
+  //fecha a tela
+  if entity.Produto = 0 then
+    dataset.Cancel
+  else
+    if TValidatePedido.Items.Exec(entity) then
+    begin
+      dataset.Post;
+      ModalResult := mrNone;
+      dataset.Append;
+      dataset.FieldByName('produto_codigo').FocusControl;
+    end;
+end;
 
 procedure TfrmViewItensPedidoVenda.FormClose(Sender: TObject; var Action: TCloseAction);
 begin
@@ -51,6 +76,8 @@ end;
 class procedure TfrmViewItensPedidoVenda.IncluirItens;
 var
   frmViewItensPedidoVenda: TfrmViewItensPedidoVenda;
+  i: integer;
+  c: TControl;
 begin
   frmViewItensPedidoVenda := TfrmViewItensPedidoVenda.Create(Application.MainForm);
   try

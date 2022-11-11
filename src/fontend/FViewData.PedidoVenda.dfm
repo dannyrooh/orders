@@ -40,6 +40,7 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
     object cdsPedidocliente_id: TIntegerField
       FieldName = 'cliente_id'
       OnSetText = cdsPedidocliente_idSetText
+      OnValidate = cdsPedidocliente_idValidate
     end
     object cdsPedidocliente_nome: TStringField
       FieldName = 'cliente_nome'

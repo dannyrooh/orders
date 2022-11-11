@@ -38,7 +38,8 @@ uses
   Convert.PedidoVendaItem in 'fontend\Convert.PedidoVendaItem.pas',
   Validate.Pedido in 'fontend\Validate.Pedido.pas',
   Dialog.Message in 'common\Dialog.Message.pas',
-  Constantes.FrontEnd in 'fontend\Constantes.FrontEnd.pas';
+  Constantes.FrontEnd in 'fontend\Constantes.FrontEnd.pas',
+  Validate.PedidoItens in 'fontend\Validate.PedidoItens.pas';
 
 {$R *.res}
 

@@ -6,13 +6,15 @@ uses
  Entity.PedidoVenda,
  Entity.PedidoVendaItem,
  Constantes.FrontEnd,
- Dialog.Message,
- DB;
+ Dialog.Message,   
+ Validate.PedidoItens;
 
 type
+
   TValidatePedido = class
   public
     class function Exec(entity: TEntityPedidoVenda): boolean;
+    class function Items: TClassValidatePedidoItens;
   end;
 
 implementation
@@ -56,6 +58,11 @@ begin
   result := true;
 
 
+end;
+
+class function TValidatePedido.Items: TClassValidatePedidoItens;
+begin
+  result :=  TValidatePedidoItens;
 end;
 
 end.

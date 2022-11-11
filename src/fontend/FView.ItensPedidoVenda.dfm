@@ -1,6 +1,7 @@
 object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
   Left = 0
   Top = 0
+  ActiveControl = edtProduto
   BorderStyle = bsDialog
   Caption = 'Itens do Pedido de Venda'
   ClientHeight = 245
@@ -57,12 +58,14 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
     Caption = 'Valor Unit'#225'rio:'
   end
   object DBText1: TDBText
-    Left = 411
+    Left = 495
     Top = 134
-    Width = 90
+    Width = 6
     Height = 25
     Alignment = taRightJustify
     AutoSize = True
+    DataField = 'valor_total'
+    DataSource = dmdViewDataPedidoVenda.dtsItensPedido
     Font.Charset = DEFAULT_CHARSET
     Font.Color = clWindowText
     Font.Height = -21
@@ -79,12 +82,11 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
     Color = clWhite
     ParentBackground = False
     TabOrder = 0
-    ExplicitWidth = 527
     object Label5: TLabel
       Left = 18
       Top = 16
       Width = 206
-      Height = 17
+      Height = 18
       Caption = 'Inclus'#227'o de Itens do Pedido'
       Font.Charset = DEFAULT_CHARSET
       Font.Color = clWindowText
@@ -101,8 +103,6 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
     Height = 51
     Align = alBottom
     TabOrder = 1
-    ExplicitTop = 184
-    ExplicitWidth = 527
     object BitBtn1: TBitBtn
       Left = 438
       Top = 16
@@ -119,6 +119,7 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
       Height = 25
       Caption = '&Gravar'
       TabOrder = 0
+      OnClick = BitBtn2Click
       Kind = bkOK
     end
   end
@@ -127,13 +128,20 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
     Top = 68
     Width = 121
     Height = 21
+    TabStop = False
+    Color = clInfoBk
+    DataField = 'sequencia'
+    DataSource = dmdViewDataPedidoVenda.dtsItensPedido
+    ReadOnly = True
     TabOrder = 2
   end
-  object DBEdit2: TDBEdit
+  object edtProduto: TDBEdit
     Left = 101
     Top = 95
     Width = 121
     Height = 21
+    DataField = 'produto_codigo'
+    DataSource = dmdViewDataPedidoVenda.dtsItensPedido
     TabOrder = 3
   end
   object DBEdit3: TDBEdit
@@ -141,6 +149,11 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
     Top = 95
     Width = 285
     Height = 21
+    TabStop = False
+    Color = clInfoBk
+    DataField = 'produto_descricao'
+    DataSource = dmdViewDataPedidoVenda.dtsItensPedido
+    ReadOnly = True
     TabOrder = 4
   end
   object DBEdit4: TDBEdit
@@ -148,13 +161,17 @@ object frmViewItensPedidoVenda: TfrmViewItensPedidoVenda
     Top = 123
     Width = 121
     Height = 21
+    DataField = 'quantidade'
+    DataSource = dmdViewDataPedidoVenda.dtsItensPedido
     TabOrder = 5
   end
   object DBEdit5: TDBEdit
     Left = 101
-    Top = 151
+    Top = 150
     Width = 121
     Height = 21
+    DataField = 'valor_unitario'
+    DataSource = dmdViewDataPedidoVenda.dtsItensPedido
     TabOrder = 6
   end
 end

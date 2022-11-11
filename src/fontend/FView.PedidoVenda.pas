@@ -34,6 +34,7 @@ type
     actFechar: TAction;
     actNovo: TAction;
     actPost: TAction;
+    btnInserirItens: TButton;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actFecharExecute(Sender: TObject);
@@ -41,8 +42,10 @@ type
     procedure actNovoExecute(Sender: TObject);
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure actPostExecute(Sender: TObject);
+    procedure btnInserirItensClick(Sender: TObject);
   private
     FViewDataPedidoVenda: TdmdViewDataPedidoVenda;
+    procedure HabilitarIncluirItens(value: boolean);
   public
 
   end;
@@ -70,6 +73,14 @@ begin
 
 end;
 
+procedure TfrmViewPedidoVenda.btnInserirItensClick(Sender: TObject);
+begin
+  if not (FViewDataPedidoVenda.cdsItensPedido.State in dsEditModes) then
+    FViewDataPedidoVenda.cdsItensPedido.Append;
+
+  TfrmViewItensPedidoVenda.IncluirItens;
+end;
+
 procedure TfrmViewPedidoVenda.FormClose(Sender: TObject;
   var Action: TCloseAction);
 begin
@@ -79,6 +90,7 @@ end;
 procedure TfrmViewPedidoVenda.FormCreate(Sender: TObject);
 begin
   FViewDataPedidoVenda := TdmdViewDataPedidoVenda.Create(Self);
+  FViewDataPedidoVenda.onNotifyAddItens := HabilitarIncluirItens;
 end;
 
 procedure TfrmViewPedidoVenda.FormDestroy(Sender: TObject);
@@ -104,6 +116,11 @@ begin
       Self.Close;
   end;
 
+end;
+
+procedure TfrmViewPedidoVenda.HabilitarIncluirItens(value: boolean);
+begin
+  btnInserirItens.Visible := value;
 end;
 
 end.
