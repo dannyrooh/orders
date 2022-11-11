@@ -67,6 +67,7 @@ end;
 procedure TfrmViewPedidoVenda.actPostExecute(Sender: TObject);
 begin
   FViewDataPedidoVenda.Post;
+
 end;
 
 procedure TfrmViewPedidoVenda.FormClose(Sender: TObject;

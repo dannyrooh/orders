@@ -55,55 +55,8 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
     Active = True
     Aggregates = <>
     AggregatesActive = True
-    FieldDefs = <
-      item
-        Name = 'id'
-        DataType = ftInteger
-      end
-      item
-        Name = 'sequencia'
-        DataType = ftInteger
-      end
-      item
-        Name = 'pedido_id'
-        DataType = ftInteger
-      end
-      item
-        Name = 'produto_id'
-        DataType = ftInteger
-      end
-      item
-        Name = 'quantidade'
-        DataType = ftFloat
-      end
-      item
-        Name = 'valor_unitario'
-        DataType = ftFloat
-      end
-      item
-        Name = 'produto_descricao'
-        DataType = ftString
-        Size = 250
-      end
-      item
-        Name = 'produto_codigo'
-        DataType = ftInteger
-      end
-      item
-        Name = 'valor_total'
-        DataType = ftFloat
-      end>
-    IndexDefs = <
-      item
-        Name = 'DEFAULT_ORDER'
-        Fields = 'sequencia'
-      end
-      item
-        Name = 'CHANGEINDEX'
-      end>
     IndexName = 'DEFAULT_ORDER'
     Params = <>
-    StoreDefs = True
     BeforeDelete = cdsItensPedidoBeforeDelete
     AfterDelete = cdsItensPedidoAfterDelete
     OnNewRecord = cdsItensPedidoNewRecord

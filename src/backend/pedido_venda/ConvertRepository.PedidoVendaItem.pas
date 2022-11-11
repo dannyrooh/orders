@@ -28,6 +28,7 @@ begin
   dataSet.FieldByName('pedido_venda').AsInteger := entity.PedidoVenda;
   dataSet.FieldByName('produto').AsInteger := entity.Produto;
   dataSet.FieldByName('sequencia').AsInteger := entity.Sequencia;
+  dataSet.FieldByName('quantidade').AsFloat := entity.Quantidade;
   dataSet.FieldByName('valor_unitario').AsFloat := entity.ValorUnitario;
   dataSet.FieldByName('valor_total').AsFloat := entity.ValorTotal;
   dataSet.Post;
@@ -39,6 +40,8 @@ begin
   result := TEntityPedidoVendaItem.Create;
   result.PedidoVenda := dataSet.FieldByName(prefix+'pedido_venda').AsInteger;
   result.Produto := dataSet.FieldByName(prefix+'produto').AsInteger;
+  result.Quantidade := dataSet.FieldByName(prefix+'quantidade').AsFloat;
+
   result.Sequencia := dataSet.FieldByName(prefix+'sequencia').AsInteger;
   result.ValorUnitario := dataSet.FieldByName(prefix+'valor_unitario').AsFloat;
   result.ValorTotal := dataSet.FieldByName(prefix+'valor_total').AsFloat;
@@ -63,6 +66,7 @@ begin
   Params.ParamByName('pedido_venda').AsInteger := entity.PedidoVenda;
   Params.ParamByName('produto').AsInteger := entity.Produto;
   Params.ParamByName('sequencia').AsInteger := entity.Sequencia;
+  Params.ParamByName('quantidade').AsFloat := entity.Quantidade;
   Params.ParamByName('valor_unitario').AsFloat := entity.ValorUnitario;
   Params.ParamByName('valor_total').AsFloat := entity.ValorTotal;
 

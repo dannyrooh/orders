@@ -61,6 +61,8 @@ type
 
     procedure AtualizarValorTotalItens;
     procedure AjustarSequenciaExcluida;
+
+    procedure LimparItens;
   public
     procedure Novo;
     procedure Post;
@@ -68,9 +70,12 @@ type
     procedure BeforeDestruction; override;
 
   published
-    property ControlCliente: TControlCliente read GetControlCliente write SetControlCliente;
-    property ControlProduto: TControlProduto read GetControlProduto write SetControlProduto;
-    property ControlPedidoVenda: TControlPedidoVenda read GetControlPedidoVenda write SetControlPedidoVenda;
+    property ControlCliente: TControlCliente read GetControlCliente write
+      SetControlCliente;
+    property ControlProduto: TControlProduto read GetControlProduto write
+      SetControlProduto;
+    property ControlPedidoVenda: TControlPedidoVenda read GetControlPedidoVenda
+      write SetControlPedidoVenda;
   end;
 
 var
@@ -99,13 +104,14 @@ begin
       if FDeleteSeq < dataset.FieldByName('sequencia').AsInteger then
       begin
         dataset.Edit;
-        dataset.FieldByName('sequencia').AsInteger := dataset.FieldByName('sequencia').AsInteger - 1;
+        dataset.FieldByName('sequencia').AsInteger :=
+          dataset.FieldByName('sequencia').AsInteger - 1;
         dataset.Post;
       end;
-      dataset.Next; 
+      dataset.Next;
     end;
   finally
-    dataset.Locate('sequencia', FDeleteSeq,[]);
+    dataset.Locate('sequencia', FDeleteSeq, []);
     dataset.EnableControls;
   end;
 
@@ -113,7 +119,7 @@ end;
 
 procedure TdmdViewDataPedidoVenda.AtualizarValorTotalItens;
 begin
- with dtsItensPedido.DataSet do
+  with dtsItensPedido.DataSet do
     FieldByName('valor_total').AsFloat := FieldByName('quantidade').AsFloat *
       FieldByName('valor_unitario').AsFloat;
 end;
@@ -125,7 +131,7 @@ begin
 
   if FControlProduto <> nil then
     FreeAndNil(FControlProduto);
-    
+
   if FControlPedidoVenda <> nil then
     FreeAndNil(FControlPedidoVenda);
 
@@ -146,7 +152,7 @@ procedure TdmdViewDataPedidoVenda.cdsItensPedidoNewRecord(DataSet: TDataSet);
 var
   linSequencia: integer;
 begin
-  linSequencia := StrToIntDef(VarToStr(cdsItensPedidoseq.Value),0)+1;
+  linSequencia := StrToIntDef(VarToStr(cdsItensPedidoseq.Value), 0) + 1;
 
   DataSet.FieldByName('quantidade').AsFloat := 1;
   DataSet.FieldByName('sequencia').AsInteger := linSequencia;
@@ -170,31 +176,35 @@ var
   end;
 
 begin
-  produto_codigo := StrToIntDef(Text,0);
+  produto_codigo := StrToIntDef(Text, 0);
 
   if produto_codigo = 0 then
     ClearItens
-  else begin
-     entityProduto := ControlProduto.GetByCodigo(produto_codigo);
-     try
-       if entityProduto.id = 0  then
-       begin
-         ClearItens;
-         raise Exception.CreateFmt(FMT_ERRO_PRODUTO_NOT_FOUND,[produto_codigo]);
-       end
-       else
-       begin
-          Sender.Asinteger := produto_codigo;
+  else
+  begin
+    entityProduto := ControlProduto.GetByCodigo(produto_codigo);
+    try
+      if entityProduto.id = 0 then
+      begin
+        ClearItens;
+        raise Exception.CreateFmt(FMT_ERRO_PRODUTO_NOT_FOUND, [produto_codigo]);
+      end
+      else
+      begin
+        Sender.Asinteger := produto_codigo;
 
-          Sender.DataSet.FieldByName('produto_id').AsInteger := entityProduto.id;
-          Sender.DataSet.FieldByName('produto_descricao').AsString := entityProduto.descricao;
-          Sender.DataSet.FieldByName('valor_unitario').AsFloat := entityProduto.preco_venda;
-          if Sender.DataSet.FieldByName('quantidade').AsFloat <= 0 then
-            Sender.DataSet.FieldByName('quantidade').AsFloat := 1;
-        end;
-     finally
-       FreeAndNil(entityProduto);;
-     end;
+        Sender.DataSet.FieldByName('produto_id').AsInteger := entityProduto.id;
+        Sender.DataSet.FieldByName('produto_descricao').AsString :=
+          entityProduto.descricao;
+        Sender.DataSet.FieldByName('valor_unitario').AsFloat :=
+          entityProduto.preco_venda;
+        if Sender.DataSet.FieldByName('quantidade').AsFloat <= 0 then
+          Sender.DataSet.FieldByName('quantidade').AsFloat := 1;
+      end;
+    finally
+      FreeAndNil(entityProduto);
+      ;
+    end;
   end;
 
 end;
@@ -202,7 +212,8 @@ end;
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoquantidadeValidate(
   Sender: TField);
 begin
-  ;AtualizarValorTotalItens
+  ;
+  AtualizarValorTotalItens
 end;
 
 procedure TdmdViewDataPedidoVenda.cdsItensPedidovalor_unitarioValidate(
@@ -217,25 +228,28 @@ var
   entityCliente: TEntityCliente;
   cliente_id: Integer;
 begin
-  cliente_id := StrToIntDef(Text,0);
+  cliente_id := StrToIntDef(Text, 0);
 
   if cliente_id = 0 then
   begin
     Sender.Clear;
     Sender.DataSet.FieldByName('cliente_nome').Clear;
   end
-  else begin
+  else
+  begin
     entityCliente := ControlCliente.GetByCodigo(cliente_id);
     try
-      if entityCliente.Id = 0  then
+      if entityCliente.Id = 0 then
       begin
         Sender.Clear;
         Sender.DataSet.FieldByName('cliente_nome').Clear;
-        raise Exception.CreateFmt(FMT_ERRO_CLIENT_NOT_FOUND,[cliente_id]);
+        raise Exception.CreateFmt(FMT_ERRO_CLIENT_NOT_FOUND, [cliente_id]);
       end
-      else begin
+      else
+      begin
         Sender.AsInteger := entityCliente.Id;
-        Sender.DataSet.FieldByName('cliente_nome').AsString := entityCliente.Nome;
+        Sender.DataSet.FieldByName('cliente_nome').AsString :=
+          entityCliente.Nome;
       end;
     finally
       FreeAndNil(entityCliente);
@@ -249,19 +263,25 @@ begin
   cdsPedidoemissao.AsDateTime := Now;
 end;
 
+procedure TdmdViewDataPedidoVenda.LimparItens;
+begin
+  with cdsItensPedido do
+    while not IsEmpty do
+      cdsItensPedido.Delete;
+end;
+
 function TdmdViewDataPedidoVenda.GetBuscarPedido(
   piNumeroPedido: integer): boolean;
 var
-  entity : TEntityPedidoVenda;
+  entity: TEntityPedidoVenda;
 begin
   entity := TEntityPedidoVenda.Create;
-  result := Entity.id = 0 ;
+  result := Entity.id = 0;
 
-  if result  then
+  if result then
   begin
     //abrir pedido
 
-  
   end;
 end;
 
@@ -275,7 +295,7 @@ end;
 function TdmdViewDataPedidoVenda.GetControlPedidoVenda: TControlPedidoVenda;
 begin
   if FControlPedidoVenda = nil then
-   FControlPedidoVenda := TControlPedidoVenda.Create;
+    FControlPedidoVenda := TControlPedidoVenda.Create;
   result := FControlPedidoVenda;
 end;
 
@@ -288,12 +308,13 @@ end;
 
 procedure TdmdViewDataPedidoVenda.Novo;
 begin
-  cdsItensPedido.Close;
-  cdsItensPedido.Open;
 
   cdsPedido.Close;
   cdsPedido.Open;
   cdsPedido.Append;
+
+  LimparItens;
+
   cdsPedidocliente_id.FocusControl;
 
 end;
@@ -311,8 +332,9 @@ begin
 
   if not TValidatePedido.Exec(entityPedidoVenda) then
     Abort;
-  
-  ControlPedidoVenda.AddPedidoVenda(entityPedidoVenda);
+
+  if ControlPedidoVenda.AddPedidoVenda(entityPedidoVenda) > 0 then
+    Novo;
 
 end;
 

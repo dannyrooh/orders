@@ -226,8 +226,6 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
       Align = alBottom
       BevelOuter = bvNone
       TabOrder = 1
-      ExplicitLeft = 2
-      ExplicitTop = 319
       object ldbTotal: TDBText
         AlignWithMargins = True
         Left = 825
