@@ -1,0 +1,1 @@
+CREATE SCHEMA `sgdbpedidos` DEFAULT CHARACTER SET utf8 ;

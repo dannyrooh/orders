@@ -1,0 +1,35 @@
+delete from produto;
+
+insert into produto(pro_codigo, pro_descricao, pro_preco_venda) values
+(1,"All in One LG 22V280-L Intel Celeron 4GB 500GB - LED IPS 21,5\x22 Full HD Windows 11",1844.10),
+(2,"All in One Ultra UB830 Intel Celeron 4GB - 120GB SSD 23,8\x22 Full HD Windows 11",1934.10),
+(3,"Computador All in One Dell Inspiron AIO-i1200-M10 23.8\x22 Full HD 12ª Geração Intel Core i5 8GB 256GB SSD Windows 11",4832.10),
+(4,"All in One Positivo Union C4120B-21 Intel - Celeron 4GB 120GB SSD IPS 21,5\x22 Full HD Windows 11",2159.10),
+(5,"All in One LG 24V50N-C.BJ32P2 Intel Core i5 8GB - 1TB IPS Full HD Windows 10",4799.00),
+(6,"Notebook Lenovo Ideapad 3i Intel Celeron 4GB 128GB - SSD 15,6\x22 Windows 11 + Office 365 82BU0008BR",1754.10),
+(7,"All in One LG 22V280-L Intel Celeron 4GB 500GB - LED IPS 21,5\x22 Full HD Windows 11",1844.10),
+(8,"Notebook Compaq Presario 427 Intel Pentium N3700 - 4GB 240GB SSD 14,1\x22 Linux",1394.10),
+(9,"Nobreak jbr guard 800va mono 220-220v",469.91),
+(10,"Notebook Positivo Motion Intel Atom - 4GB 128GB eMMC 14,1\x22 LED Windows 10",1439.10),
+(11,"Webcam Logitech C930e Full Hd 1080p (pronta Entrega)",572.25),
+(12,"Computador Completo Intel Core i5 8GB SSD 480GB Monitor LED 19.5\x22 HDMI CorPC Fast",1614.15),
+(13,"Notebook Asus Intel Celeron 4GB 128 GB SSD - 15,6\x22 Windows 11",1979.10),
+(14,"Notebook Lenovo IdeaPad 3i Celeron 4GB 128GB SSD Linux 15.6\x22 82BUS00100",1979.10),
+(15,"Notebook Lenovo Ideapad 3 Intel Celeron 4GB - 128GB SSD 15,6\x22 Windows 11 82BU0006BR",2299.00),
+(16,"Notebook Samsung Book 15.6 FHD Intel i3-1115G4 256GB SSD 4GB Linux - NP550XDZ-KV6BR",2105.10),
+(17,"Cabeça de impressão 11 magenta c4812a HP",428.90),
+(18,"Notebook Gamer Acer Nitro 5 AN517-54-55T5 Intel Core i5 Windows 11 Home 8GB 512GB SSD GTX 1650 17.3\x22",4679.10),
+(19,"Smart TV 43\x22 Crystal 4K Samsung 43AU7700 Wi-Fi - Bluetooth HDR Alexa Built in 3 HDMI 1 USB",2184.05),
+(20,"Smart TV 50\x22 Crystal 4K Samsung 50AU7700 - Wi-Fi Bluetooth HDR Alexa Built in 3 HDMI 1 USB",2489.00),
+(21,"Smart TV HD LED 32\x22 Samsung T4300 - Wi-Fi HDR 2 HDMI 1 USB",1329.05),
+(22,"Smart TV 32\x22 HD LED TCL S615 VA 60Hz - Android Wi-Fi e Bluetooth Google Assistente 2 HDMI",1234.05),
+(23,"Suporte para TV Fixo de 10\x22 até 85\x22 - Indusat SU280i",23.66),
+(24,"Smart TV LED 32\x22 HD HQ Conversor Digital Externo 3 HDMI 2 USB WI-FI Android 11 Design Slim",958.50),
+(25,"Impressora Plotter Epson SureColor T3170 - Jato de Tinta Colorida Wi-Fi USB",1979.10),
+(26,"Roteador Wifi Mesh Gigabit Dual Band AC1200 MW6 TENDA Kit com 3 Unidades",1199.90),
+(27,"Impressora Multifuncional HP tanque de tinta Smart Tank 517 1TJ10A",1349.00),
+(28,"Cilindro para Brother Dcp-l5652dn L5652 L5602 Dr-3440",138.57),
+(29,"Toner Para Tn1060 + Fotocondutor Dr1060 1512 Hl-1110 - Evolut",96.35),
+(30,"Cabo de Rede Intelbras INET 4830051 UTP CAT5.E 4PX24 AWG CMX 305M IMPACT LAN IL5CAZ",965.90);
+
+

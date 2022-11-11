@@ -1,0 +1,151 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <ProjectGuid>{8c9c2b82-2e7b-4114-9d05-ab00343ccb27}</ProjectGuid>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <DCC_DCCCompiler>DCC32</DCC_DCCCompiler>
+    <DCC_DependencyCheckOutputName>..\exe\Orders.exe</DCC_DependencyCheckOutputName>
+    <MainSource>Orders.dpr</MainSource>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_DebugInformation>False</DCC_DebugInformation>
+    <DCC_LocalDebugSymbols>False</DCC_LocalDebugSymbols>
+    <DCC_SymbolReferenceInfo>0</DCC_SymbolReferenceInfo>
+    <DCC_Define>RELEASE</DCC_Define>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <Version>7.0</Version>
+    <DCC_Define>DEBUG</DCC_Define>
+    <DCC_ExeOutput>.\..\exe</DCC_ExeOutput>
+    <DCC_DcuOutput>.\..\tmp</DCC_DcuOutput>
+    <DCC_ObjOutput>.\..\tmp</DCC_ObjOutput>
+    <DCC_HppOutput>.\..\tmp</DCC_HppOutput>
+    <DCC_BplOutput>.\..\tmp</DCC_BplOutput>
+    <DCC_DcpOutput>.\..\tmp</DCC_DcpOutput>
+    <DCC_UnitSearchPath>.\..\exe</DCC_UnitSearchPath>
+    <DCC_ResourcePath>.\..\exe</DCC_ResourcePath>
+    <DCC_ObjPath>.\..\exe</DCC_ObjPath>
+    <DCC_IncludePath>.\..\exe</DCC_IncludePath>
+  </PropertyGroup>
+  <ProjectExtensions>
+    <Borland.Personality>Delphi.Personality</Borland.Personality>
+    <Borland.ProjectType />
+    <BorlandProject>
+<BorlandProject><Delphi.Personality><Parameters><Parameters Name="UseLauncher">False</Parameters><Parameters Name="LoadAllSymbols">True</Parameters><Parameters Name="LoadUnspecifiedSymbols">False</Parameters></Parameters><VersionInfo><VersionInfo Name="IncludeVerInfo">False</VersionInfo><VersionInfo Name="AutoIncBuild">False</VersionInfo><VersionInfo Name="MajorVer">1</VersionInfo><VersionInfo Name="MinorVer">0</VersionInfo><VersionInfo Name="Release">0</VersionInfo><VersionInfo Name="Build">0</VersionInfo><VersionInfo Name="Debug">False</VersionInfo><VersionInfo Name="PreRelease">False</VersionInfo><VersionInfo Name="Special">False</VersionInfo><VersionInfo Name="Private">False</VersionInfo><VersionInfo Name="DLL">False</VersionInfo><VersionInfo Name="Locale">1046</VersionInfo><VersionInfo Name="CodePage">1252</VersionInfo></VersionInfo><VersionInfoKeys><VersionInfoKeys Name="CompanyName"></VersionInfoKeys><VersionInfoKeys Name="FileDescription"></VersionInfoKeys><VersionInfoKeys Name="FileVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="InternalName"></VersionInfoKeys><VersionInfoKeys Name="LegalCopyright"></VersionInfoKeys><VersionInfoKeys Name="LegalTrademarks"></VersionInfoKeys><VersionInfoKeys Name="OriginalFilename"></VersionInfoKeys><VersionInfoKeys Name="ProductName"></VersionInfoKeys><VersionInfoKeys Name="ProductVersion">1.0.0.0</VersionInfoKeys><VersionInfoKeys Name="Comments"></VersionInfoKeys></VersionInfoKeys><Excluded_Packages>
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
+      <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
+    </Excluded_Packages><Source><Source Name="MainSource">Orders.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
+  </ProjectExtensions>
+  <Import Project="$(MSBuildBinPath)\Borland.Delphi.Targets" />
+  <ItemGroup>
+    <DelphiCompile Include="Orders.dpr">
+      <MainSource>MainSource</MainSource>
+    </DelphiCompile>
+    <DCCReference Include="backend\cliente\ControlRepository.Cliente.pas" />
+    <DCCReference Include="backend\cliente\DataRepository.Cliente.pas">
+      <Form>dmdDataRepositoryCliente</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="backend\pedido_venda\ControlRepository.PedidoVenda.pas" />
+    <DCCReference Include="backend\pedido_venda\ControlRepository.PedidoVendaItem.pas" />
+    <DCCReference Include="backend\pedido_venda\ConvertRepository.PedidoVenda.pas" />
+    <DCCReference Include="backend\pedido_venda\ConvertRepository.PedidoVendaItem.pas" />
+    <DCCReference Include="backend\pedido_venda\DataRepository.PedidoVenda.pas">
+      <Form>dmdDataRepositoryPedidoVenda</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="backend\produto\ControlRepository.Produto.pas" />
+    <DCCReference Include="backend\produto\DataRepository.Produto.pas">
+      <Form>dmdDataRepositoryProduto</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="common\Common.Messages.pas" />
+    <DCCReference Include="common\Convert.Cliente.pas" />
+    <DCCReference Include="common\Convert.Produto.pas" />
+    <DCCReference Include="common\Dialog.Message.pas" />
+    <DCCReference Include="common\Entity.Cliente.pas" />
+    <DCCReference Include="common\Entity.PedidoVenda.pas" />
+    <DCCReference Include="common\Entity.PedidoVendaItem.pas" />
+    <DCCReference Include="common\Entity.Produto.pas" />
+    <DCCReference Include="Data.Main.pas">
+      <Form>dmdDataMain</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="fontend\Constantes.FrontEnd.pas" />
+    <DCCReference Include="fontend\Control.Cliente.pas" />
+    <DCCReference Include="fontend\Control.PedidoVenda.pas" />
+    <DCCReference Include="fontend\Control.Produto.pas" />
+    <DCCReference Include="fontend\Convert.PedidoVenda.pas" />
+    <DCCReference Include="fontend\Convert.PedidoVendaItem.pas" />
+    <DCCReference Include="fontend\FView.ItensPedidoVenda.pas">
+      <Form>frmViewItensPedidoVenda</Form>
+    </DCCReference>
+    <DCCReference Include="fontend\FView.PedidoVenda.pas">
+      <Form>frmViewPedidoVenda</Form>
+    </DCCReference>
+    <DCCReference Include="fontend\FViewData.PedidoVenda.pas">
+      <Form>dmdViewDataPedidoVenda</Form>
+      <DesignClass>TDataModule</DesignClass>
+    </DCCReference>
+    <DCCReference Include="fontend\Validate.Pedido.pas" />
+    <DCCReference Include="Global.Main.pas" />
+    <DCCReference Include="lib\Base.ControlRepository.pas" />
+    <DCCReference Include="mediator\IMediator.Cliente.pas" />
+    <DCCReference Include="mediator\IMediator.PedidoVenda.pas" />
+    <DCCReference Include="mediator\IMediator.Produto.pas" />
+    <DCCReference Include="mediator\Mediator.Cliente.pas" />
+    <DCCReference Include="mediator\Mediator.PedidoVenda.pas" />
+    <DCCReference Include="mediator\Mediator.Produto.pas" />
+    <DCCReference Include="View.Main.pas">
+      <Form>frmViewMain</Form>
+    </DCCReference>
+  </ItemGroup>
+</Project>
