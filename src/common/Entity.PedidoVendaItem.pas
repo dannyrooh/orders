@@ -16,9 +16,13 @@ type
     FpedidoVenda: integer;
     FvalorUnitario: double;
     FvalorTotal: double;
+    FProdutoDescricao: string;
+    FProdutoCodigo: integer;
   published
     property PedidoVenda: integer read FpedidoVenda write FpedidoVenda;
     property Produto: integer read Fproduto write Fproduto;
+    property ProdutoCodigo: integer read FProdutoCodigo write FProdutoCodigo;
+    property ProdutoDescricao: string read FProdutoDescricao write FProdutoDescricao;
     property Sequencia: integer read Fsequencia write Fsequencia;
     property Quantidade: double read Fquantidade write Fquantidade;
     property ValorUnitario: double read FvalorUnitario write FvalorUnitario;

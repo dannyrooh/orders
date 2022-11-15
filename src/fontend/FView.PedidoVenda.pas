@@ -5,6 +5,9 @@ interface
 uses
   FViewData.PedidoVenda,
   FView.ItensPedidoVenda,
+  FViewBusca.PedidoVenda,
+  Entity.PedidoVenda,
+  Dialog.Message,
   Windows, Messages, SysUtils, Variants, Classes, Graphics, Controls, Forms, Db,
   Dialogs, ExtCtrls, Grids, DBGrids, Buttons, StdCtrls, Mask, DBCtrls, ActnList;
 
@@ -17,7 +20,6 @@ type
     grdItens: TDBGrid;
     btnovo: TButton;
     btnBuscar: TButton;
-    btnCancelar: TButton;
     Label1: TLabel;
     DBEdit1: TDBEdit;
     DBEdit2: TDBEdit;
@@ -29,12 +31,14 @@ type
     pnlTotal: TPanel;
     ldbTotal: TDBText;
     btnGravar: TButton;
-    btnFechar: TButton;
     actPedidos: TActionList;
     actFechar: TAction;
     actNovo: TAction;
     actPost: TAction;
     btnInserirItens: TButton;
+    btnCancelar: TButton;
+    btnFechar: TButton;
+    actCancelar: TAction;
     procedure FormCreate(Sender: TObject);
     procedure FormDestroy(Sender: TObject);
     procedure actFecharExecute(Sender: TObject);
@@ -43,6 +47,10 @@ type
     procedure FormKeyDown(Sender: TObject; var Key: Word; Shift: TShiftState);
     procedure actPostExecute(Sender: TObject);
     procedure btnInserirItensClick(Sender: TObject);
+    procedure grdItensKeyDown(Sender: TObject; var Key: Word;
+      Shift: TShiftState);
+    procedure actCancelarExecute(Sender: TObject);
+    procedure btnBuscarClick(Sender: TObject);
   private
     FViewDataPedidoVenda: TdmdViewDataPedidoVenda;
     procedure HabilitarIncluirItens(value: boolean);
@@ -56,6 +64,11 @@ var
 implementation
 
 {$R *.dfm}
+
+procedure TfrmViewPedidoVenda.actCancelarExecute(Sender: TObject);
+begin
+  FViewDataPedidoVenda.Cancelar;
+end;
 
 procedure TfrmViewPedidoVenda.actFecharExecute(Sender: TObject);
 begin
@@ -71,6 +84,18 @@ procedure TfrmViewPedidoVenda.actPostExecute(Sender: TObject);
 begin
   FViewDataPedidoVenda.Post;
 
+end;
+
+procedure TfrmViewPedidoVenda.btnBuscarClick(Sender: TObject);
+var
+  entity: TEntityPedidoVenda;
+begin
+  if TfrmViewBuscaPedidoVenda.ShowExec(
+        FViewDataPedidoVenda.ControlPedidoVenda,
+        FViewDataPedidoVenda.ControlCliente,
+        entity)
+  then
+    FViewDataPedidoVenda.Load(entity);
 end;
 
 procedure TfrmViewPedidoVenda.btnInserirItensClick(Sender: TObject);
@@ -90,7 +115,7 @@ end;
 procedure TfrmViewPedidoVenda.FormCreate(Sender: TObject);
 begin
   FViewDataPedidoVenda := TdmdViewDataPedidoVenda.Create(Self);
-  FViewDataPedidoVenda.onNotifyAddItens := HabilitarIncluirItens;
+  FViewDataPedidoVenda.onNotifyCliente := HabilitarIncluirItens;
 end;
 
 procedure TfrmViewPedidoVenda.FormDestroy(Sender: TObject);
@@ -118,9 +143,20 @@ begin
 
 end;
 
+procedure TfrmViewPedidoVenda.grdItensKeyDown(Sender: TObject; var Key: Word;
+  Shift: TShiftState);
+begin
+  if (Key = VK_DELETE)
+  and ( not grdItens.DataSource.DataSet.IsEmpty )
+  and TDialogMessage.Excluir()
+  then
+    FViewDataPedidoVenda.Delete;
+end;
+
 procedure TfrmViewPedidoVenda.HabilitarIncluirItens(value: boolean);
 begin
   btnInserirItens.Visible := value;
+  btnBuscar.Visible := not value;
 end;
 
 end.

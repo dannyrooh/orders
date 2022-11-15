@@ -3,6 +3,7 @@ unit Convert.PedidoVendaItem;
 interface
 
 uses
+  Convert.Entity,
   Entity.PedidoVendaItem,
   DB;
 
@@ -12,6 +13,8 @@ type
   public
     class function toEntity(dataset: TDataSet): TEntityPedidoVendaItem;
     class function toList(dataset: TDataSet): TListPedidoVendaItem;
+
+    class procedure toDataSet(sourceEntity: TEntityPedidoVendaItem; datasetDestiny: TDataSet);
   end;
 
 
@@ -19,16 +22,17 @@ implementation
 
 { TConvertPedidoVendaItem }
 
+class procedure TConvertPedidoVendaItem.toDataSet(
+  sourceEntity : TEntityPedidoVendaItem; datasetDestiny: TDataSet);
+begin
+  TConvertEntity.toDataSet(sourceEntity, datasetDestiny,true, true, true);
+end;
+
 class function TConvertPedidoVendaItem.toEntity(
   dataset: TDataSet): TEntityPedidoVendaItem;
 begin
   result := TEntityPedidoVendaItem.Create;
-  result.PedidoVenda := dataset.FieldByName('pedido_id').AsInteger;
-  result.Produto := dataset.FieldByName('produto_id').AsInteger;
-  result.Sequencia := dataset.FieldByName('sequencia').AsInteger;
-  result.Quantidade := dataset.FieldByName('quantidade').AsFloat;
-  result.ValorUnitario := dataset.FieldByName('valor_unitario').AsFloat;
-  result.ValorTotal := dataset.FieldByName('valor_total').AsFloat;
+  TConvertEntity.toEntity(dataset,result);
 end;
 
 class function TConvertPedidoVendaItem.toList(

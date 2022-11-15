@@ -90,6 +90,104 @@
       
       
       
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       <Excluded_Packages Name="$(BDS)\bin\dcloffice2k100.bpl">Microsoft Office 2000 Sample Automation Server Wrapper Components</Excluded_Packages>
       <Excluded_Packages Name="$(BDS)\bin\dclofficexp100.bpl">Microsoft Office XP Sample Automation Server Wrapper Components</Excluded_Packages>
     </Excluded_Packages><Source><Source Name="MainSource">Orders.dpr</Source></Source></Delphi.Personality></BorlandProject></BorlandProject>
@@ -129,6 +227,7 @@
       <Form>dmdDataMain</Form>
       <DesignClass>TDataModule</DesignClass>
     </DCCReference>
+    <DCCReference Include="fontend\Cache.Delete.PedidoVendaItem.pas" />
     <DCCReference Include="fontend\Constantes.FrontEnd.pas" />
     <DCCReference Include="fontend\Control.Cliente.pas" />
     <DCCReference Include="fontend\Control.PedidoVenda.pas" />
@@ -141,6 +240,9 @@
     <DCCReference Include="fontend\FView.PedidoVenda.pas">
       <Form>frmViewPedidoVenda</Form>
     </DCCReference>
+    <DCCReference Include="fontend\FViewBusca.PedidoVenda.pas">
+      <Form>frmViewBuscaPedidoVenda</Form>
+    </DCCReference>
     <DCCReference Include="fontend\FViewData.PedidoVenda.pas">
       <Form>dmdViewDataPedidoVenda</Form>
       <DesignClass>TDataModule</DesignClass>
@@ -149,6 +251,8 @@
     <DCCReference Include="fontend\Validate.PedidoItens.pas" />
     <DCCReference Include="Global.Main.pas" />
     <DCCReference Include="lib\Base.ControlRepository.pas" />
+    <DCCReference Include="lib\Convert.Convention.pas" />
+    <DCCReference Include="lib\Convert.Entity.pas" />
     <DCCReference Include="mediator\IMediator.Cliente.pas" />
     <DCCReference Include="mediator\IMediator.PedidoVenda.pas" />
     <DCCReference Include="mediator\IMediator.Produto.pas" />

@@ -7,6 +7,8 @@ resourcestring
   FMT_ERRO_CLIENT_NOT_FOUND = 'Cliente %d não foi encontrado';
   FMT_ERRO_PRODUTO_NOT_FOUND = 'Produto %d não foi encontrado';
 
+  MSG_DEL_CONFIRM =  'Confirma Exclusão?';
+
 implementation
 
 end.

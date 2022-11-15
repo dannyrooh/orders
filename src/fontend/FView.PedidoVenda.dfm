@@ -28,28 +28,52 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
     Align = alTop
     TabOrder = 0
     object btnovo: TButton
-      Left = 4
-      Top = 3
+      AlignWithMargins = True
+      Left = 6
+      Top = 4
       Width = 109
-      Height = 40
+      Height = 39
+      Margins.Left = 5
+      Margins.Right = 0
+      Margins.Bottom = 5
       Action = actNovo
+      Align = alLeft
       TabOrder = 0
+      ExplicitLeft = 4
+      ExplicitTop = 3
+      ExplicitHeight = 40
     end
     object btnBuscar: TButton
-      Left = 119
-      Top = 3
+      AlignWithMargins = True
+      Left = 120
+      Top = 4
       Width = 109
-      Height = 40
+      Height = 39
+      Margins.Left = 5
+      Margins.Right = 0
+      Margins.Bottom = 5
+      Align = alLeft
       Caption = '&Buscar (F3)'
       TabOrder = 1
+      OnClick = btnBuscarClick
+      ExplicitLeft = 119
+      ExplicitTop = 3
+      ExplicitHeight = 40
     end
-    object btnCancelar: TButton
-      Left = 234
-      Top = 3
+    object btnFechar: TButton
+      AlignWithMargins = True
+      Left = 751
+      Top = 4
       Width = 109
-      Height = 40
-      Caption = 'Cancelar (f4)'
+      Height = 39
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Action = actFechar
+      Align = alRight
       TabOrder = 2
+      ExplicitLeft = 752
+      ExplicitTop = 3
+      ExplicitHeight = 40
     end
   end
   object pnlFooterPedidoVenda: TPanel
@@ -60,20 +84,37 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
     Align = alBottom
     TabOrder = 1
     object btnGravar: TButton
-      Left = 616
+      AlignWithMargins = True
+      Left = 628
       Top = 6
       Width = 118
-      Height = 40
+      Height = 41
+      Margins.Left = 0
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
       Action = actPost
+      Align = alRight
       TabOrder = 0
+      ExplicitTop = 5
+      ExplicitHeight = 40
     end
-    object btnFechar: TButton
-      Left = 740
-      Top = 7
+    object btnCancelar: TButton
+      AlignWithMargins = True
+      Left = 751
+      Top = 6
       Width = 109
-      Height = 40
-      Action = actFechar
+      Height = 41
+      Margins.Left = 0
+      Margins.Top = 5
+      Margins.Right = 5
+      Margins.Bottom = 5
+      Action = actCancelar
+      Align = alRight
       TabOrder = 1
+      ExplicitLeft = 752
+      ExplicitTop = 5
+      ExplicitHeight = 40
     end
   end
   object pnlPedidoVenda: TPanel
@@ -83,6 +124,8 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
     Height = 80
     Align = alTop
     TabOrder = 2
+    ExplicitLeft = -1
+    ExplicitTop = 43
     object Label1: TLabel
       Left = 36
       Top = 16
@@ -120,43 +163,45 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
       Width = 121
       Height = 21
       DataField = 'numero'
-      DataSource = dmdViewDataPedidoVenda.dstPedido
+      DataSource = dmdViewDataPedidoVenda.dtsPedido
       TabOrder = 0
     end
     object DBEdit2: TDBEdit
       Left = 343
       Top = 13
-      Width = 121
+      Width = 119
       Height = 21
       DataField = 'emissao'
-      DataSource = dmdViewDataPedidoVenda.dstPedido
+      DataSource = dmdViewDataPedidoVenda.dtsPedido
       MaxLength = 16
       TabOrder = 1
     end
     object DBEdit3: TDBEdit
       Left = 119
       Top = 44
-      Width = 121
+      Width = 119
       Height = 21
-      DataField = 'cliente_id'
-      DataSource = dmdViewDataPedidoVenda.dstPedido
+      DataField = 'cliente_codigo'
+      DataSource = dmdViewDataPedidoVenda.dtsPedido
       TabOrder = 2
     end
     object DBEdit4: TDBEdit
       Left = 246
       Top = 44
-      Width = 267
+      Width = 265
       Height = 21
       TabStop = False
       DataField = 'cliente_nome'
-      DataSource = dmdViewDataPedidoVenda.dstPedido
+      DataSource = dmdViewDataPedidoVenda.dtsPedido
       TabOrder = 3
     end
     object btnInserirItens: TButton
-      Left = 731
-      Top = 42
-      Width = 118
-      Height = 23
+      AlignWithMargins = True
+      Left = 751
+      Top = 25
+      Width = 109
+      Height = 40
+      Margins.Right = 5
       Caption = '+ &Adicionar Itens'
       TabOrder = 4
       Visible = False
@@ -184,6 +229,7 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
       TitleFont.Height = -11
       TitleFont.Name = 'Tahoma'
       TitleFont.Style = []
+      OnKeyDown = grdItensKeyDown
       Columns = <
         item
           Color = clInfoBk
@@ -272,6 +318,10 @@ object frmViewPedidoVenda: TfrmViewPedidoVenda
       Caption = '&Gravar'
       ShortCut = 16397
       OnExecute = actPostExecute
+    end
+    object actCancelar: TAction
+      Caption = '&Cancelar '
+      OnExecute = actCancelarExecute
     end
   end
 end

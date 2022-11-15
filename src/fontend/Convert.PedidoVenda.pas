@@ -4,6 +4,7 @@ interface
 
 uses
   Entity.PedidoVenda,
+  Convert.Entity,
   Convert.PedidoVendaItem,
   DB;
 
@@ -12,6 +13,10 @@ type
   public
     class function toEntity(dataset: TDataSet): TEntityPedidoVenda;
     class function Item: TClassConvertPedidoVendaItem;
+
+    class procedure toDataset(
+      souceEntity: TEntityPedidoVenda;
+      datasetPedidoVenda, datasetPedidoVendaItem: TDataSet);
   end;
 
 implementation
@@ -23,17 +28,23 @@ begin
   result := TConvertPedidoVendaItem;
 end;
 
+class procedure TConvertPedidoVenda.toDataset(souceEntity: TEntityPedidoVenda;
+  datasetPedidoVenda, datasetPedidoVendaItem: TDataSet);
+var
+  i: integer;
+begin
+  TConvertEntity.toDataSet(souceEntity,datasetPedidoVenda);
+
+  for i := 0 to souceEntity.items.Count-1 do
+    Item.toDataSet(souceEntity.items.Items[i],datasetPedidoVendaItem);
+
+end;
+
 class function TConvertPedidoVenda.toEntity(
   dataset: TDataSet): TEntityPedidoVenda;
 begin
   result := TEntityPedidoVenda.Create;
-
-  result.id := dataset.FieldByName('id').AsInteger;
-  result.cliente := dataset.FieldByName('cliente_id').AsInteger;
-  result.numero := dataset.FieldByName('numero').AsInteger;
-  result.emissao := dataset.FieldByName('emissao').AsDateTime;
-  result.valor_total := dataset.FieldByName('valor_total').AsFloat;
-
+  TConvertEntity.toEntity(dataset,result,'',false);
 end;
 
 end.

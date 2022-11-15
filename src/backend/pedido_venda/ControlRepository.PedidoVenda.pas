@@ -164,6 +164,8 @@ begin
   
   try
     result := TConvertRepositoryPedidoVenda.ToEntity(qry);
+    if Result.id > 0 then
+      result.items := ControlPedidoVendaItem.GetPedidoVendaItemByPedidoVenda(result.id); 
   finally
     qry.Close;
   end;

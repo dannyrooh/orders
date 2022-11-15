@@ -7,7 +7,7 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
     Left = 176
     Top = 96
   end
-  object dstPedido: TDataSource
+  object dtsPedido: TDataSource
     DataSet = cdsPedido
     Left = 176
     Top = 40
@@ -20,11 +20,12 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
     Left = 88
     Top = 40
     Data = {
-      8C0000009619E0BD0100000018000000060000000000030000008C0002696404
+      A00000009619E0BD010000001800000007000000000003000000A00002696404
       00010000000000066E756D65726F040001000000000007656D697373616F0800
-      0800000000000A636C69656E74655F696404000100000000000C636C69656E74
-      655F6E6F6D6501004900000001000557494454480200020080000B76616C6F72
-      5F746F74616C08000400000000000000}
+      08000000000007636C69656E746504000100000000000C636C69656E74655F6E
+      6F6D6501004900000001000557494454480200020080000B76616C6F725F746F
+      74616C08000400000000000E636C69656E74655F636F6469676F040001000000
+      00000000}
     object cdsPedidoid: TIntegerField
       FieldName = 'id'
       ProviderFlags = [pfInUpdate, pfInWhere, pfInKey]
@@ -37,10 +38,8 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
       DisplayFormat = 'dd/mm/yyyy hh:nn'
       EditMask = '!90/00/0000 00:00;1;_'
     end
-    object cdsPedidocliente_id: TIntegerField
-      FieldName = 'cliente_id'
-      OnSetText = cdsPedidocliente_idSetText
-      OnValidate = cdsPedidocliente_idValidate
+    object cdsPedidocliente: TIntegerField
+      FieldName = 'cliente'
     end
     object cdsPedidocliente_nome: TStringField
       FieldName = 'cliente_nome'
@@ -50,6 +49,11 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
       FieldName = 'valor_total'
       DisplayFormat = ',0.00'
       EditFormat = '0.00'
+    end
+    object cdsPedidocliente_codigo: TIntegerField
+      FieldName = 'cliente_codigo'
+      OnSetText = cdsPedidocliente_codigoSetText
+      OnValidate = cdsPedidocliente_codigoValidate
     end
   end
   object cdsItensPedido: TClientDataSet
@@ -65,8 +69,8 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
     Top = 96
     Data = {
       C30000009619E0BD010000001800000008000000000003000000C30002696404
-      000100000000000973657175656E63696104000100000000000970656469646F
-      5F696404000100000000000A70726F6475746F5F696404000100000000000A71
+      000100000000000973657175656E63696104000100000000000C70656469646F
+      5F76656E646104000100000000000770726F6475746F04000100000000000A71
       75616E74696461646508000400000000000E76616C6F725F756E69746172696F
       08000400000000001170726F6475746F5F64657363726963616F010049000000
       010005574944544802000200FA000E70726F6475746F5F636F6469676F040001
@@ -79,11 +83,11 @@ object dmdViewDataPedidoVenda: TdmdViewDataPedidoVenda
       FieldName = 'sequencia'
     end
     object cdsItensPedidopedido_id: TIntegerField
-      FieldName = 'pedido_id'
+      FieldName = 'pedido_venda'
     end
     object cdsItensPedidoproduto_id: TIntegerField
       DisplayLabel = 'Produto'
-      FieldName = 'produto_id'
+      FieldName = 'produto'
     end
     object cdsItensPedidoquantidade: TFloatField
       DisplayLabel = 'Quantidade'

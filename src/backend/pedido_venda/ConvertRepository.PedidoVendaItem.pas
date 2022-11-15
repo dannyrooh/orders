@@ -4,74 +4,44 @@ interface
 
 uses
   Entity.PedidoVendaItem,
-  SysUtils, DB;
+  Convert.Entity,
+  DB;
 
 type
-  TConvertPedidoVendaItem = class
+  TConvertRepositoryPedidoVendaItem = class
   public
-    class function ToEntity(dataset: TDataset; const prefix: string = ''): TEntityPedidoVendaItem;
-    class function ToList(dataset: TDataset; const prefix: string = ''): TListPedidoVendaItem;
-    class function ToDataset(entity: TEntityPedidoVendaItem; dataSet: TDataSet): TDataSet;
-    class function ToParams(entity: TEntityPedidoVendaItem; params: TParams): TDataSet;
+    class function ToEntity(dataset: TDataset):TEntityPedidoVendaItem;
+    class function ToList(dataset: TDataset):TListPedidoVendaItem;
+    class procedure ToParams(entity: TEntityPedidoVendaItem; params: TParams);
   end;
 
 implementation
 
-{ TConvertPedidoVendaItem }
+{ TConvertRepositoryPedidoVendaItem }
 
-class function TConvertPedidoVendaItem.ToDataset(entity: TEntityPedidoVendaItem;
-  dataSet: TDataSet): TDataSet;
-begin
-  result := dataSet;
-
-  dataSet.Edit;
-  dataSet.FieldByName('pedido_venda').AsInteger := entity.PedidoVenda;
-  dataSet.FieldByName('produto').AsInteger := entity.Produto;
-  dataSet.FieldByName('sequencia').AsInteger := entity.Sequencia;
-  dataSet.FieldByName('quantidade').AsFloat := entity.Quantidade;
-  dataSet.FieldByName('valor_unitario').AsFloat := entity.ValorUnitario;
-  dataSet.FieldByName('valor_total').AsFloat := entity.ValorTotal;
-  dataSet.Post;
-end;
-
-class function TConvertPedidoVendaItem.ToEntity(
-  dataset: TDataset; const prefix: string): TEntityPedidoVendaItem;
+class function TConvertRepositoryPedidoVendaItem.ToEntity(
+  dataset: TDataset): TEntityPedidoVendaItem;
 begin
   result := TEntityPedidoVendaItem.Create;
-  result.PedidoVenda := dataSet.FieldByName(prefix+'pedido_venda').AsInteger;
-  result.Produto := dataSet.FieldByName(prefix+'produto').AsInteger;
-  result.Quantidade := dataSet.FieldByName(prefix+'quantidade').AsFloat;
-
-  result.Sequencia := dataSet.FieldByName(prefix+'sequencia').AsInteger;
-  result.ValorUnitario := dataSet.FieldByName(prefix+'valor_unitario').AsFloat;
-  result.ValorTotal := dataSet.FieldByName(prefix+'valor_total').AsFloat;
+  TConvertEntity.toEntity(dataset,result, 'pit_');
 end;
 
-class function TConvertPedidoVendaItem.ToList(
-  dataset: TDataset;const prefix: string): TListPedidoVendaItem;
+class function TConvertRepositoryPedidoVendaItem.ToList(
+  dataset: TDataset): TListPedidoVendaItem;
 begin
   result := TListPedidoVendaItem.Create;
   dataset.First;
   while not dataset.Eof do
   begin
-    result.Add(ToEntity(dataset, prefix));
+    result.Add(ToEntity(dataset));
     dataset.Next;
   end;
 end;
 
-class function TConvertPedidoVendaItem.ToParams(entity: TEntityPedidoVendaItem;
-  params: TParams): TDataSet;
+class procedure TConvertRepositoryPedidoVendaItem.ToParams(
+    entity: TEntityPedidoVendaItem; params: TParams);
 begin
-
-  Params.ParamByName('pedido_venda').AsInteger := entity.PedidoVenda;
-  Params.ParamByName('produto').AsInteger := entity.Produto;
-  Params.ParamByName('sequencia').AsInteger := entity.Sequencia;
-  Params.ParamByName('quantidade').AsFloat := entity.Quantidade;
-  Params.ParamByName('valor_unitario').AsFloat := entity.ValorUnitario;
-  Params.ParamByName('valor_total').AsFloat := entity.ValorTotal;
-
-  result := TDataSet(params.Owner);
-
+  TConvertEntity.toParams(entity, params);
 end;
 
 end.

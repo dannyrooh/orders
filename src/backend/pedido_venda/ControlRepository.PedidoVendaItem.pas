@@ -42,7 +42,7 @@ implementation
 function TControlRepositoryPedidoVendaItem.AddPedidoVendaItem(
   entity: TEntityPedidoVendaItem): boolean;
 begin
-  TConvertPedidoVendaItem.ToParams(entity,FQryAdd.Params);
+  TConvertRepositoryPedidoVendaItem.ToParams(entity,FQryAdd.Params);
   FQryAdd.ExecSQL();
   result := FQryAdd.RowsAffected > 0;
 end;
@@ -110,7 +110,7 @@ var
   dataset: TDataSet;
 begin
   dataset := Get(WHERE_PEDIDOVENDA_SEQUENCIA,[pPedidoVenda, pSequencia]);
-  result := TConvertPedidoVendaItem.ToEntity(dataset);
+  result := TConvertRepositoryPedidoVendaItem.ToEntity(dataset);
 end;
 
 function TControlRepositoryPedidoVendaItem.GetPedidoVendaItemByPedidoVenda(
@@ -119,13 +119,13 @@ var
   dataset: TDataSet;
 begin
   dataset := Get(WHERE_PEDIDOVENDA,[pIdPedidoVenda]);
-  result := TConvertPedidoVendaItem.ToList(dataset);
+  result := TConvertRepositoryPedidoVendaItem.ToList(dataset);
 end;
 
 function TControlRepositoryPedidoVendaItem.UpdPedidoVendaItem(
   entity: TEntityPedidoVendaItem): boolean;
 begin
-  TConvertPedidoVendaItem.ToParams(entity,FQryUpd.Params);
+  TConvertRepositoryPedidoVendaItem.ToParams(entity,FQryUpd.Params);
   FQryUpd.ExecSQL();
   result := FQryUpd.RowsAffected > 0;
 end;

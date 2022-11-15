@@ -16,9 +16,10 @@ type
     FMediator: IMediatorCliente;
   public
     procedure AfterConstruction; override;
-    
-    function GetByCodigo(piCodigo: Integer): TEntityCliente;
-    function GetByNome(psNome: string): TEntityCliente;
+
+    function GetById(pinId: Integer): TEntityCliente;
+    function GetByCodigo(pinCodigo: Integer): TEntityCliente;
+    function GetByNome(pstNome: string): TEntityCliente;
   end;
 
 implementation
@@ -34,14 +35,19 @@ begin
     FMediator := TControlRepositoryCliente.Create;
 end;
 
-function TMediatorCliente.GetByCodigo(piCodigo: Integer): TEntityCliente;
+function TMediatorCliente.GetByCodigo(pinCodigo: Integer): TEntityCliente;
 begin
-  result := FMediator.GetByCodigo(piCodigo);
+  result := FMediator.GetByCodigo(pinCodigo);
 end;
 
-function TMediatorCliente.GetByNome(psNome: string): TEntityCliente;
+function TMediatorCliente.GetById(pinId: Integer): TEntityCliente;
 begin
-  result := FMediator.GetByNome(psNome); 
+  result := FMediator.GetById(pinId);
+end;
+
+function TMediatorCliente.GetByNome(pstNome: string): TEntityCliente;
+begin
+  result := FMediator.GetByNome(pstNome);
 end;
 
 end.

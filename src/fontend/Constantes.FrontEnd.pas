@@ -14,6 +14,8 @@ resourcestring
   ERRO_ITEM_QUANTIDADE_NOT_FOUND = 'Informe a quantidade do produto';
   ERRO_ITEM_VALORUNITARIO_NOT_FOUND = 'Informe o valor unitário do produto';
 
+  MSG_BUSCA_INFORME_PEDIDO = 'Informe o número do pedido';
+  MSG_BUSCA_PEDIDO_NOT_FOUND = 'Não existe pedido com o número informado';
 
   
 

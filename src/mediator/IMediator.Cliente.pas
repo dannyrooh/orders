@@ -8,8 +8,9 @@ uses
 type
   IMediatorCliente = interface
     ['{A1A281C6-9EF9-45B8-8182-0061461EE255}']
-    function GetByCodigo(piCodigo: Integer): TEntityCliente;
-    function GetByNome(psNome: string): TEntityCliente;
+    function GetById(pinId: Integer): TEntityCliente;
+    function GetByCodigo(pinCodigo: Integer): TEntityCliente;
+    function GetByNome(pstNome: string): TEntityCliente;
   end;
 
 implementation

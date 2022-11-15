@@ -185,14 +185,17 @@ object dmdDataRepositoryPedidoVenda: TdmdDataRepositoryPedidoVenda
     Params = <>
     SQL.Strings = (
       'select'
-      '  pit_id,'
       '  pit_pedido_venda,'
       '  pit_produto,'
       '  pit_sequencia,'
       '  pit_quantidade,'
       '  pit_valor_unitario,'
-      '  pit_valor_total'
+      '  pit_valor_total,'
+      '  pro_codigo as produto_codigo,'
+      '  pro_descricao as produto_descricao'
       ' from pedido_venda_item'
+      ' left join produto'
+      '   on pro_id = pit_produto'
       '')
     SQLConnection = dmdDataMain.conexao
     Left = 200
@@ -227,7 +230,7 @@ object dmdDataRepositoryPedidoVenda: TdmdDataRepositoryPedidoVenda
     SQL.Strings = (
       'delete from pedido_venda_item')
     SQLConnection = dmdDataMain.conexao
-    Left = 208
-    Top = 256
+    Left = 200
+    Top = 240
   end
 end

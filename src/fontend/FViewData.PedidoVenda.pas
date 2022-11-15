@@ -4,6 +4,7 @@ interface
 
 uses
   Entity.PedidoVenda,
+  Entity.PedidoVendaItem,
   Entity.Cliente,
   Control.Cliente,
   Entity.Produto,
@@ -12,21 +13,23 @@ uses
   Convert.PedidoVenda,
   Validate.Pedido,
   Common.Messages,
+  Cache.Delete.PedidoVendaItem,
   SysUtils, Classes, DB, DBClient, Variants;
 
 type
-  TNotifyAddItens = procedure(value: boolean) of object;
+  TNotifyCliente = procedure(value: boolean) of object;
 
   TdmdViewDataPedidoVenda = class(TDataModule)
     dtsItensPedido: TDataSource;
-    dstPedido: TDataSource;
+    dtsPedido: TDataSource;
     cdsPedido: TClientDataSet;
     cdsPedidoid: TIntegerField;
     cdsPedidonumero: TIntegerField;
     cdsPedidoemissao: TDateTimeField;
-    cdsPedidocliente_id: TIntegerField;
+    cdsPedidocliente: TIntegerField;
     cdsPedidocliente_nome: TStringField;
     cdsPedidovalor_total: TFloatField;
+    cdsPedidocliente_codigo: TIntegerField;
     cdsItensPedido: TClientDataSet;
     cdsItensPedidoid: TIntegerField;
     cdsItensPedidosequencia: TIntegerField;
@@ -40,7 +43,6 @@ type
     cdsItensPedidoseq: TAggregateField;
     cdsItensPedidototal: TAggregateField;
     procedure cdsPedidoNewRecord(DataSet: TDataSet);
-    procedure cdsPedidocliente_idSetText(Sender: TField; const Text: string);
     procedure cdsItensPedidoproduto_codigoSetText(Sender: TField;
       const Text: string);
     procedure cdsItensPedidoNewRecord(DataSet: TDataSet);
@@ -48,13 +50,17 @@ type
     procedure cdsItensPedidovalor_unitarioValidate(Sender: TField);
     procedure cdsItensPedidoBeforeDelete(DataSet: TDataSet);
     procedure cdsItensPedidoAfterDelete(DataSet: TDataSet);
-    procedure cdsPedidocliente_idValidate(Sender: TField);
+    procedure cdsPedidocliente_codigoValidate(Sender: TField);
+    procedure cdsPedidocliente_codigoSetText(Sender: TField;
+      const Text: string);
   private
     FControlCliente: TControlCliente;
     FControlProduto: TControlProduto;
     FControlPedidoVenda: TControlPedidoVenda;
     FDeleteSeq: integer;
-    FonNotifyAddItens: TNotifyAddItens;
+    FonNotifyCliente: TNotifyCliente;
+    FCacheDeletePedidoVendaItem: TCacheDeletePedidoVendaItem;
+
     function GetBuscarPedido(piNumeroPedido: integer): boolean;
     procedure SetControlCliente(const Value: TControlCliente);
     function GetControlCliente: TControlCliente;
@@ -67,13 +73,17 @@ type
     procedure AjustarSequenciaExcluida;
 
     procedure LimparItens;
-    procedure SetonNotifyAddItens(const Value: TNotifyAddItens);
+    procedure SetonNotifyCliente(const Value: TNotifyCliente);
+  private
+    procedure InitDataset;
   public
     procedure Novo;
     procedure Post;
+    procedure Delete;
+    procedure Cancelar;
+    procedure Load(entity: TEntityPedidoVenda);
 
     procedure BeforeDestruction; override;
-
   published
     property ControlCliente: TControlCliente read GetControlCliente write
       SetControlCliente;
@@ -82,7 +92,8 @@ type
     property ControlPedidoVenda: TControlPedidoVenda read GetControlPedidoVenda
       write SetControlPedidoVenda;
 
-    property onNotifyAddItens:TNotifyAddItens read FonNotifyAddItens write SetonNotifyAddItens;
+    property onNotifyCliente: TNotifyCliente read FonNotifyCliente write
+      SetonNotifyCliente;
   end;
 
 var
@@ -145,6 +156,12 @@ begin
   inherited;
 end;
 
+procedure TdmdViewDataPedidoVenda.Cancelar;
+begin
+  if cdsPedido.State in dsEditModes then
+    Novo;
+end;
+
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoAfterDelete(DataSet: TDataSet);
 begin
   AjustarSequenciaExcluida;
@@ -153,6 +170,14 @@ end;
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoBeforeDelete(DataSet: TDataSet);
 begin
   FDeleteSeq := dtsItensPedido.DataSet.FieldByName('sequencia').AsInteger;
+
+  //quando não estiver em mode de inclusão
+  if dtsPedido.DataSet.FieldByName('id').AsInteger > 0 then
+  begin
+    if FCacheDeletePedidoVendaItem = nil then
+      FCacheDeletePedidoVendaItem := TCacheDeletePedidoVendaItem.Create;
+    FCacheDeletePedidoVendaItem.Add(FDeleteSeq)
+  end;
 end;
 
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoNewRecord(DataSet: TDataSet);
@@ -164,7 +189,6 @@ begin
   DataSet.FieldByName('quantidade').AsFloat := 1;
   DataSet.FieldByName('sequencia').AsInteger := linSequencia;
   DataSet.FieldByName('id').AsInteger := linSequencia * -1;
-//  DataSet.FieldByName('produto_codigo').FocusControl;
 end;
 
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoproduto_codigoSetText(
@@ -176,7 +200,7 @@ var
   procedure ClearItens;
   begin
     Sender.Clear;
-    Sender.DataSet.FieldByName('produto_id').Clear;
+    Sender.DataSet.FieldByName('produto').Clear;
     Sender.DataSet.FieldByName('produto_descricao').Clear;
     Sender.DataSet.FieldByName('valor_unitario').Clear;
     Sender.DataSet.FieldByName('quantidade').Clear;
@@ -200,7 +224,7 @@ begin
       begin
         Sender.Asinteger := produto_codigo;
 
-        Sender.DataSet.FieldByName('produto_id').AsInteger := entityProduto.id;
+        Sender.DataSet.FieldByName('produto').AsInteger := entityProduto.id;
         Sender.DataSet.FieldByName('produto_descricao').AsString :=
           entityProduto.descricao;
         Sender.DataSet.FieldByName('valor_unitario').AsFloat :=
@@ -210,7 +234,6 @@ begin
       end;
     finally
       FreeAndNil(entityProduto);
-      ;
     end;
   end;
 
@@ -219,8 +242,7 @@ end;
 procedure TdmdViewDataPedidoVenda.cdsItensPedidoquantidadeValidate(
   Sender: TField);
 begin
-  ;
-  AtualizarValorTotalItens
+  AtualizarValorTotalItens;
 end;
 
 procedure TdmdViewDataPedidoVenda.cdsItensPedidovalor_unitarioValidate(
@@ -229,51 +251,61 @@ begin
   AtualizarValorTotalItens;
 end;
 
-procedure TdmdViewDataPedidoVenda.cdsPedidocliente_idSetText(Sender: TField;
+procedure TdmdViewDataPedidoVenda.cdsPedidocliente_codigoSetText(Sender: TField;
   const Text: string);
 var
   entityCliente: TEntityCliente;
-  cliente_id: Integer;
+  cliente_codigo: Integer;
 begin
-  cliente_id := StrToIntDef(Text, 0);
+  cliente_codigo := StrToIntDef(Text, 0);
 
-  if cliente_id = 0 then
+  if cliente_codigo = 0 then
   begin
     Sender.Clear;
+    Sender.DataSet.FieldByName('cliente').Clear;
     Sender.DataSet.FieldByName('cliente_nome').Clear;
   end
   else
   begin
-    entityCliente := ControlCliente.GetByCodigo(cliente_id);
+    entityCliente := ControlCliente.GetByCodigo(cliente_codigo);
     try
       if entityCliente.Id = 0 then
       begin
         Sender.Clear;
+        Sender.DataSet.FieldByName('cliente').Clear;
         Sender.DataSet.FieldByName('cliente_nome').Clear;
-        raise Exception.CreateFmt(FMT_ERRO_CLIENT_NOT_FOUND, [cliente_id]);
+        raise Exception.CreateFmt(FMT_ERRO_CLIENT_NOT_FOUND, [cliente_codigo]);
       end
       else
       begin
-        Sender.AsInteger := entityCliente.Id;
-        Sender.DataSet.FieldByName('cliente_nome').AsString :=
-          entityCliente.Nome;
+        Sender.AsInteger := entityCliente.Codigo;
+        Sender.DataSet.FieldByName('cliente').AsInteger := entityCliente.Id;
+        Sender.DataSet.FieldByName('cliente_nome').AsString := entityCliente.Nome;
       end;
     finally
       FreeAndNil(entityCliente);
     end;
   end;
+
 end;
 
-procedure TdmdViewDataPedidoVenda.cdsPedidocliente_idValidate(Sender: TField);
+procedure TdmdViewDataPedidoVenda.cdsPedidocliente_codigoValidate(
+  Sender: TField);
 begin
-  if Assigned(onNotifyAddItens) then
-    onNotifyAddItens(Sender.AsInteger > 0);
+  if Assigned(onNotifyCliente) then
+    onNotifyCliente(Sender.AsInteger > 0);
 end;
 
 procedure TdmdViewDataPedidoVenda.cdsPedidoNewRecord(DataSet: TDataSet);
 begin
   cdsPedidonumero.AsInteger := ControlPedidoVenda.NextNumeroPedidoVenda;
   cdsPedidoemissao.AsDateTime := Now;
+  onNotifyCliente(false);
+end;
+
+procedure TdmdViewDataPedidoVenda.Delete;
+begin
+
 end;
 
 procedure TdmdViewDataPedidoVenda.LimparItens;
@@ -281,6 +313,27 @@ begin
   with cdsItensPedido do
     while not IsEmpty do
       cdsItensPedido.Delete;
+end;
+
+procedure TdmdViewDataPedidoVenda.Load(entity: TEntityPedidoVenda);
+var
+  entityCliente: TEntityCliente;
+begin
+  InitDataset;
+
+  TConvertPedidoVenda.toDataset(entity, cdsPedido, cdsItensPedido);
+
+  if entity.cliente > 0 then
+  try
+    entityCliente := ControlCliente.GetById(entity.cliente);
+    cdsPedido.Edit;
+    cdsPedido.FieldByName('cliente_codigo').AsInteger := entityCliente.Codigo;
+    cdsPedido.FieldByName('cliente_nome').AsString := entityCliente.Nome;
+    cdsPedido.Post;
+  finally
+    FreeAndNil(entityCliente);
+  end;
+
 end;
 
 function TdmdViewDataPedidoVenda.GetBuscarPedido(
@@ -319,17 +372,23 @@ begin
   result := FControlProduto;
 end;
 
-procedure TdmdViewDataPedidoVenda.Novo;
+procedure TdmdViewDataPedidoVenda.InitDataset;
 begin
+  if not cdsItensPedido.Active then
+    cdsItensPedido.Open
+  else
+    LimparItens;
 
   cdsPedido.Close;
   cdsPedido.Open;
+
+end;
+
+procedure TdmdViewDataPedidoVenda.Novo;
+begin
+  InitDataset;
   cdsPedido.Append;
-
-  LimparItens;
-
-  cdsPedidocliente_id.FocusControl;
-
+  cdsPedidocliente_codigo.FocusControl;
 end;
 
 procedure TdmdViewDataPedidoVenda.Post;
@@ -369,10 +428,10 @@ begin
   FControlProduto := Value;
 end;
 
-procedure TdmdViewDataPedidoVenda.SetonNotifyAddItens(
-  const Value: TNotifyAddItens);
+procedure TdmdViewDataPedidoVenda.SetonNotifyCliente(
+  const Value: TNotifyCliente);
 begin
-  FonNotifyAddItens := Value;
+  FonNotifyCliente := Value;
 end;
 
 end.

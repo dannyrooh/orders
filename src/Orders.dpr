@@ -39,7 +39,11 @@ uses
   Validate.Pedido in 'fontend\Validate.Pedido.pas',
   Dialog.Message in 'common\Dialog.Message.pas',
   Constantes.FrontEnd in 'fontend\Constantes.FrontEnd.pas',
-  Validate.PedidoItens in 'fontend\Validate.PedidoItens.pas';
+  Validate.PedidoItens in 'fontend\Validate.PedidoItens.pas',
+  Cache.Delete.PedidoVendaItem in 'fontend\Cache.Delete.PedidoVendaItem.pas',
+  FViewBusca.PedidoVenda in 'fontend\FViewBusca.PedidoVenda.pas' {frmViewBuscaPedidoVenda},
+  Convert.Entity in 'lib\Convert.Entity.pas',
+  Convert.Convention in 'lib\Convert.Convention.pas';
 
 {$R *.res}
 
@@ -48,6 +52,5 @@ begin
   Application.MainFormOnTaskbar := True;
   Application.CreateForm(TfrmViewMain, frmViewMain);
   Application.CreateForm(TdmdDataMain, dmdDataMain);
-  Application.CreateForm(TdmdDataRepositoryProduto, dmdDataRepositoryProduto);
   Application.Run;
 end.
